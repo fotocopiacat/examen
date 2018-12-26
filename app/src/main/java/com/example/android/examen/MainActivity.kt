@@ -10,7 +10,9 @@ import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v4.app.ActivityCompat
 import android.support.v4.content.ContextCompat.getSystemService
+import android.view.View
 import android.widget.Toast
+import com.example.android.examen.R.layout.activity_main
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -33,6 +35,7 @@ class MainActivity : AppCompatActivity(),LocationListener, OnMapReadyCallback {
     //Este boolean lo uso para saber si se están mostrando los marcadores o no,
     //así puedo limpiarlos o leerlos de la DB.
     var isShowing : Boolean = true
+
 
     override fun onMapReady(p0: GoogleMap?) {
         mapa = p0
@@ -65,8 +68,6 @@ class MainActivity : AppCompatActivity(),LocationListener, OnMapReadyCallback {
         val fragmentoMapaCB = supportFragmentManager.findFragmentById(R.id.FragmentMapa) as SupportMapFragment
         fragmentoMapaCB.getMapAsync(this)
 
-        //El gps es un permiso importante entonces debe salir un popup que le indique al usuario
-        //sobre el uso del GPS
         val permisos = arrayOf(Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION)
         var granted = true
         for (permiso in permisos)
@@ -80,10 +81,24 @@ class MainActivity : AppCompatActivity(),LocationListener, OnMapReadyCallback {
         else {
             lm?.requestLocationUpdates(LocationManager.GPS_PROVIDER,1000,1f,this)
         }
-
         val fragmentoMapa = supportFragmentManager.findFragmentById(R.id.FragmentMapa) as SupportMapFragment
         fragmentoMapa.getMapAsync(this)
 
+        var inputNombre = editNombre.text.toString()
+        var inputDescripcion = editDescripcion.text.toString()
+        var latString = latitud.toString()
+        var longString = longitud.toString()
+
+        btnAdd.setOnClickListener {
+            var marcador = LatLng(latitud,longitud)
+            var zoom : Float = 700f
+            mapa?.moveCamera(CameraUpdateFactory.newLatLngZoom(marcador,zoom))
+            mapa?.addMarker(MarkerOptions().position(marcador).visible(true))
+            var customSQL = CustomSQL(this,"Ubicaciones", null, 1)
+            customSQL.insertar(inputNombre,inputDescripcion,latString,longString)
+            editNombre.text.clear()
+            editDescripcion.text.clear()
+        }
     }
 
     override fun onLocationChanged(location: Location?) {
@@ -93,6 +108,9 @@ class MainActivity : AppCompatActivity(),LocationListener, OnMapReadyCallback {
         longitud = location?.longitude.toString().toDouble()
         altitud = location?.altitude.toString().toDouble()
 
+        var marcador = LatLng(latitud,longitud)
+        var zoom : Float = 1500f
+        mapa?.moveCamera(CameraUpdateFactory.newLatLngZoom(marcador,zoom))
     }
 
 
@@ -119,6 +137,8 @@ class MainActivity : AppCompatActivity(),LocationListener, OnMapReadyCallback {
     }
 
     override fun onStatusChanged(provider: String?, status: Int, extras: Bundle?) {
+        //se deja vacio
+
     }
 
     override fun onProviderEnabled(provider: String?) {
