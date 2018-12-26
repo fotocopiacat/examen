@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">examen</string>
+    <string name="txtname">Nombre</string>
+    <string name="txtdescripcion">Descripcion</string>
+    <string name="txtadd">Agregar</string>
+
+
 </resources>
