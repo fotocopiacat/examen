@@ -9,6 +9,7 @@ import android.location.LocationManager
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v4.app.ActivityCompat
+import android.support.v4.content.ContextCompat.getSystemService
 import android.widget.Toast
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -32,7 +33,6 @@ class MainActivity : AppCompatActivity(),LocationListener, OnMapReadyCallback {
     //Este boolean lo uso para saber si se están mostrando los marcadores o no,
     //así puedo limpiarlos o leerlos de la DB.
     var isShowing : Boolean = true
-
 
     override fun onMapReady(p0: GoogleMap?) {
         mapa = p0
@@ -81,58 +81,9 @@ class MainActivity : AppCompatActivity(),LocationListener, OnMapReadyCallback {
             lm?.requestLocationUpdates(LocationManager.GPS_PROVIDER,1000,1f,this)
         }
 
-        //fragmento mapa
         val fragmentoMapa = supportFragmentManager.findFragmentById(R.id.FragmentMapa) as SupportMapFragment
-        //Antes decia THIS con rojo, pero al anadir el listner de mapa (ultimo metodo de Main Activity) y
-        //sobreescribir, deja de suceder
         fragmentoMapa.getMapAsync(this)
 
-        //Detiene la inserción de datos en la DB
-        btnDetener.setOnClickListener{
-            isSaving = false
-            Toast.makeText(this, "Base de datos cerrada", Toast.LENGTH_SHORT).show()
-        }
-
-        //Abre la conexión con la DB en caso de estar cerrada o detenida
-        btnIniciar.setOnClickListener {
-            isSaving = true
-            System.out.println("listo para guardar locaciones en la DB")
-            Toast.makeText(this, "Base de datos abierta", Toast.LENGTH_SHORT).show()
-        }
-
-        //Borra la base de datos
-        btnAdd.setOnClickListener{
-            this.mapa?.clear()
-            var customSQL = CustomSQL(this,"myDB", null, 1)
-            customSQL.eliminar("myDB")
-            isShowing = false
-
-        }
-
-        //Dibuja y desdibuja marcadores
-        btnDibujar.setOnClickListener{
-            var customSQL = CustomSQL(this,"myDB", null, 1)
-            var ubicaciondb = customSQL.getUbicaciones(latitud,longitud)
-            //si isShowing (seteado en creacion de marcadores) es verdadero, limpia los markers
-            if (this.isShowing) {
-                mapa?.clear()
-                Toast.makeText(this, "Eliminando marcadores", Toast.LENGTH_LONG).show()
-            }
-            else if (!this.isShowing && ubicaciondb.size==0){
-                Toast.makeText(this, "No se borra marcadores porque DB no existe", Toast.LENGTH_LONG).show()
-            }
-            else {
-                Toast.makeText(this, "Leyendo database", Toast.LENGTH_LONG).show()
-                for (i in ubicaciondb) {
-                    //Esto deberia crear los marcadores leyendolos desde la DB, ya que itera sobre todos los datos,
-                    //pero solo crea el ultimo
-                    mapa?.addMarker(MarkerOptions().position(i).visible(true))
-                    //Imprime en consola todas las ubicaciones. Lo hice para saber si estaba iterando correctamente
-                    System.out.println(i)
-                }
-            }
-            this.isShowing = !this.isShowing
-        }
     }
 
     override fun onLocationChanged(location: Location?) {
@@ -142,18 +93,8 @@ class MainActivity : AppCompatActivity(),LocationListener, OnMapReadyCallback {
         longitud = location?.longitude.toString().toDouble()
         altitud = location?.altitude.toString().toDouble()
 
-        var lat = latitud.toString()
-        var long = longitud.toString()
-
-        if (isSaving == true) {
-            var marcador = LatLng(latitud,longitud)
-            mapa?.addMarker(MarkerOptions().position(marcador))
-            var zoom : Float = 1500f
-            mapa?.moveCamera(CameraUpdateFactory.newLatLngZoom(marcador,zoom));
-            var customSQL = CustomSQL(this,"myDB", null, 1)
-            customSQL.insertar(lat,long)
-        }
     }
+
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
         when (requestCode)
