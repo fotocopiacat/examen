@@ -61,15 +61,9 @@ class RegistroFragment : Fragment(),LocationListener, OnMapReadyCallback {
         super.onCreate(savedInstanceState)
         miContexto = activity
         var customSQL : CustomSQL = CustomSQL(miContexto, "Ubicaciones", null, 1)
-        //Se inicializa el location manager
+
         var lm = this.miContexto?.getSystemService(Context.LOCATION_SERVICE) as LocationManager
 
-        //El fragmento mapa necesita un callback q haremos ahora
-      //  val fragmentoMapaCB = childFragmentManager.findFragmentById(R.id.FragmentMapa) as SupportMapFragment
-      //  fragmentoMapaCB.getMapAsync(this)
-
-        //El gps es un permiso importante entonces debe salir un popup que le indique al usuario
-        //sobre el uso del GPS
         val permisos = arrayOf(Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION)
         var granted = true
         for (permiso in permisos)
@@ -87,16 +81,10 @@ class RegistroFragment : Fragment(),LocationListener, OnMapReadyCallback {
             lm?.requestLocationUpdates(LocationManager.GPS_PROVIDER,1000,1f,this)
         }
 
-        //fragmento mapa
-     //   val fragmentoMapa = childFragmentManager.findFragmentById(R.id.FragmentMapa) as SupportMapFragment
-       // fragmentoMapa.getMapAsync(this)
-
-
     }
 
     override fun onAttach(context: Context?) {
         super.onAttach(context)
-      //  var database = SQLiteDatabase(activity) as SQLiteDatabase
     }
 
     override fun onLocationChanged(location: Location?) {

@@ -76,6 +76,7 @@ class Navigation : AppCompatActivity(), NavigationView.OnNavigationItemSelectedL
         // Handle navigation view item clicks here.
         when (item.itemId) {
             R.id.nav_vermapa -> {
+
                 val fm = supportFragmentManager
                 val ft = fm.beginTransaction()
                 val vistaRegistro = RegistroFragment()
@@ -84,6 +85,7 @@ class Navigation : AppCompatActivity(), NavigationView.OnNavigationItemSelectedL
                 ft.commit()
             }
             R.id.nav_listar -> {
+
                 val fm = supportFragmentManager
                 val ft = fm.beginTransaction()
                 val listPlaces = ListaFragment()
