@@ -15,7 +15,7 @@
             android:label="@string/app_name"
             android:roundIcon="@mipmap/ic_launcher_round"
             android:supportsRtl="true"
-            android:theme="@style/AppTheme">
+            android:theme="@style/AppTheme.NoActionBar">
         <meta-data
                 android:name="com.google.android.geo.API_KEY"
                 android:value="AIzaSyCtopCBkuLGREgdbXtVTuKrTw4ttYsO_fc"/>
@@ -24,14 +24,17 @@
                 android:name="org.apache.http.legacy"
                 android:required="false"/>
 
-        <activity android:name=".MainActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
 
-                <category android:name="android.intent.category.LAUNCHER"/>
-            </intent-filter>
+        <activity
+                android:name=".Navigation">
+                    <intent-filter>
+                        <action android:name="android.intent.action.MAIN"/>
+
+                        <category android:name="android.intent.category.LAUNCHER"/>
+                    </intent-filter>
+                android:label="@string/title_activity_navigation"
+                android:theme="@style/AppTheme.NoActionBar">
         </activity>
-
     </application>
 
 </manifest>

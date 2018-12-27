@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             xmlns:tools="http://schemas.android.com/tools"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"
+             tools:context=".RegistroFragment">
+
+    <!-- TODO: Update blank fragment layout -->
+
+    <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+        <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+            <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textPersonName"
+                    android:ems="10"
+                    android:id="@+id/editNombre" android:layout_weight="1" android:hint="@string/txtname"/>
+            <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textPersonName"
+                    android:ems="10"
+                    android:id="@+id/editDescripcion" android:layout_weight="1" android:hint="@string/txtdescripcion"/>
+            <Button
+                    android:text="@string/txtadd"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" android:id="@+id/btnAdd" android:textSize="12sp"
+                    android:textStyle="italic" android:textAlignment="center"
+            />
+        </LinearLayout>
+        <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/layMap" android:layout_weight="1">
+
+            <fragment
+                    android:id="@+id/FragmentMapa"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:name="com.google.android.gms.maps.SupportMapFragment"/>
+
+        </LinearLayout>
+    </LinearLayout>
+</FrameLayout>

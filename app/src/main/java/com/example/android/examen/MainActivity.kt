@@ -83,7 +83,7 @@ class MainActivity : AppCompatActivity(),LocationListener, OnMapReadyCallback {
         val fragmentoMapa = supportFragmentManager.findFragmentById(R.id.FragmentMapa) as SupportMapFragment
         fragmentoMapa.getMapAsync(this)
 
-        btnAdd.setOnClickListener {
+        /*btnAdd.setOnClickListener {
             var nombre : String = editNombre.text.toString()
             var descripcion : String = editDescripcion.text.toString()
             var marcador = LatLng(latitud,longitud)
@@ -101,8 +101,9 @@ class MainActivity : AppCompatActivity(),LocationListener, OnMapReadyCallback {
             val ft = fm.beginTransaction()
             val listPlaces = ListaFragment()
             listPlaces.miContexto = this
-            ft.replace(R.id.layMap,ListaFragment())
+            ft.replace(R.id.layReplace,ListaFragment())
             ft.commit()
+
             var nombre : String = editNombre.text.toString()
             var descripcion : String = editDescripcion.text.toString()
             var customSQL = CustomSQL(this,"Ubicaciones", null, 1)
@@ -110,7 +111,7 @@ class MainActivity : AppCompatActivity(),LocationListener, OnMapReadyCallback {
             for (i  in getubicaciones){
                 System.out.println(i)
             }
-        }
+        }*/
     }
 
     override fun onLocationChanged(location: Location?) {
