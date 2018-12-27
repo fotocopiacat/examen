@@ -96,6 +96,12 @@ class MainActivity : AppCompatActivity(),LocationListener, OnMapReadyCallback {
         }
 
         btnList.setOnClickListener {
+            val fm = supportFragmentManager
+            val ft = fm.beginTransaction()
+            val listPlaces = ListaFragment()
+            listPlaces.miContexto = this
+            ft.replace(R.id.layMap,ListaFragment())
+            ft.commit()
             var nombre : String = editNombre.text.toString()
             var descripcion : String = editDescripcion.text.toString()
             var customSQL = CustomSQL(this,"Ubicaciones", null, 1)
