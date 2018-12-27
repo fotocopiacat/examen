@@ -2,25 +2,22 @@ package com.example.android.examen
 
 import android.content.ContentValues
 import android.content.Context
-import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
-import android.os.Environment
 import android.widget.Toast
-import com.google.android.gms.maps.model.LatLng
-import java.io.File
 import java.sql.SQLException
 
-class CustomSQL (val miContexto: Context,
-                 var nombreDb : String,
-                 val factory: SQLiteDatabase.CursorFactory?,
-                 var version : Int) : SQLiteOpenHelper(miContexto,
+class CustomSQL (
+    val miContexto: Context?,
+    var nombreDb: String,
+    val factory: SQLiteDatabase.CursorFactory?,
+    var version: Int) : SQLiteOpenHelper(miContexto,
     nombreDb,
     factory,
     version) {
 
     override fun onCreate(db: SQLiteDatabase?) {
-        var query = "CREATE TABLE Ubicaciones(id INTEGER PRIMARY KEY AUTOINCREMENT, Nombre TEXT, Descripcion TEXT, Latitud STRING, Longitud STRING)"
+        var query = "CREATE TABLE Ubicaciones(id INTEGER PRIMARY KEY AUTOINCREMENT, Nombre TEXT, Descripcion TEXT, Latitud TEXT, Longitud TEXT)"
         db?.execSQL(query)
     }
 

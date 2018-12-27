@@ -4,6 +4,8 @@ import android.Manifest
 import android.app.Activity
 import android.content.Context
 import android.content.pm.PackageManager
+import android.database.sqlite.SQLiteDatabase
+import android.database.sqlite.SQLiteOpenHelper
 import android.location.Location
 import android.location.LocationListener
 import android.location.LocationManager
@@ -11,10 +13,10 @@ import android.net.Uri
 import android.os.Bundle
 import android.support.v4.app.ActivityCompat
 import android.support.v4.app.Fragment
-import android.support.v4.content.ContextCompat.getSystemService
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.Toast
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -22,7 +24,7 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
-import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.fragment_registro.*
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -50,7 +52,9 @@ class RegistroFragment : Fragment(),LocationListener, OnMapReadyCallback {
     var lm: LocationManager? = null
     var miContexto: Context? = null
 
+
     override fun onMapReady(p0: GoogleMap?) {
+
         mapa = p0
         //se revisa nuevamente si los permisos fueron otorgados
         val permisos = arrayOf(Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION)
@@ -63,6 +67,17 @@ class RegistroFragment : Fragment(),LocationListener, OnMapReadyCallback {
         } else {
             p0?.isMyLocationEnabled = true
         }
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+
+    }
+
+    override fun onAttach(context: Context?) {
+        super.onAttach(context)
+        var database = SQLiteDatabase(activity) as SQLiteDatabase
     }
 
     override fun onLocationChanged(location: Location?) {
@@ -98,14 +113,16 @@ class RegistroFragment : Fragment(),LocationListener, OnMapReadyCallback {
     }
 
     override fun onCreateView (inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        var miContexto : Context? = null
+
         // Inflate the layout for this fragment
         var v: View = inflater.inflate(R.layout.fragment_registro, container, false)
         val fragmentoMap = childFragmentManager.findFragmentById(R.id.FragmentMapa) as SupportMapFragment?
         fragmentoMap?.getMapAsync(this)
+        var customSQL : CustomSQL = CustomSQL(miContexto, "Ubicaciones", null, 1)
 
 
-       // lm = getSystemService(Context.LOCATION_SERVICE) as LocationManager
+
+        // lm = getSystemService(Context.LOCATION_SERVICE) as LocationManager
 
         //Se inicializa el location manager
 
@@ -123,31 +140,29 @@ class RegistroFragment : Fragment(),LocationListener, OnMapReadyCallback {
         }
       //  val fragmentoMapa = childFragmentManager.findFragmentById(R.id.FragmentMapa) as SupportMapFragment
        // fragmentoMapa.getMapAsync(this)
+        this.miContexto = miContexto
 
-//        btnAdd.setOnClickListener {
-//            var nombre: String = editNombre.text.toString()
-//            var descripcion: String = editDescripcion.text.toString()
-//            var marcador = LatLng(latitud, longitud)
-//            var zoom: Float = 20f
-//            mapa?.moveCamera(CameraUpdateFactory.newLatLngZoom(marcador, zoom))
-//            mapa?.addMarker(MarkerOptions().position(marcador).visible(true))
-//            var customSQL = CustomSQL(miContexto!!, "Ubicaciones", null, 1)
-//            customSQL.insertar(nombre, descripcion, latitud.toString(), longitud.toString())
-//            editNombre.text.clear()
-//            editDescripcion.text.clear()
-//        }
+        var buttonAdd = v.findViewById<Button>(R.id.btnAdd) as Button
+        //var miContexto : Context = Context(miContexto)
+        buttonAdd.setOnClickListener {
+            var nombre: String = editNombre.text.toString()
+            var descripcion: String = editDescripcion.text.toString()
+            var marcador = LatLng(latitud, longitud)
+            var zoom: Float = 20f
+            mapa?.moveCamera(CameraUpdateFactory.newLatLngZoom(marcador, zoom))
+            mapa?.addMarker(MarkerOptions().position(marcador).visible(true))
+            var customSQL : CustomSQL = CustomSQL(miContexto, "Ubicaciones", null, 1)
+            customSQL.insertar(nombre, descripcion, latitud.toString(), longitud.toString())
+            //this.editNombre.text.clear()
+           // this.editDescripcion.text.clear()
+            customSQL.getUbicaciones(nombre, descripcion, latitud.toString(), longitud.toString())
+        }
 
 
         return v
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-    }
+
 
 
     override fun onStatusChanged(provider: String?, status: Int, extras: Bundle?) {
@@ -162,4 +177,6 @@ class RegistroFragment : Fragment(),LocationListener, OnMapReadyCallback {
     fun onButtonPressed(uri: Uri) {
      //   listener?.onFragmentInteraction(uri)
     }
+
+
 }
