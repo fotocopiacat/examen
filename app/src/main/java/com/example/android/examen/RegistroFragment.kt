@@ -149,10 +149,16 @@ class RegistroFragment : Fragment(),LocationListener, OnMapReadyCallback {
             mapa?.addMarker(MarkerOptions().position(marcador).visible(true))
 
             var customSQL : CustomSQL = CustomSQL(miContexto, "Ubicaciones", null, 1)
-            customSQL.getUbicaciones(nombre, descripcion, latitud.toString(), longitud.toString())
-            customSQL.insertar(nombre, descripcion, latitud.toString(), longitud.toString())
-            this.editNombre.text.clear()
-            this.editDescripcion.text.clear()
+
+            if (nombre.length==0 || descripcion.length==0) {
+                Toast.makeText(miContexto, "No dejes campos en blanco! Escribe nuevamente :3",Toast.LENGTH_LONG).show()
+            }
+            else {
+                customSQL.getUbicaciones(nombre, descripcion, latitud.toString(), longitud.toString())
+                customSQL.insertar(nombre, descripcion, latitud.toString(), longitud.toString())
+                this.editNombre.text.clear()
+                this.editDescripcion.text.clear()
+            }
         }
         return v
     }
