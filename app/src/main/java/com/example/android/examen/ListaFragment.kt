@@ -19,7 +19,7 @@ import android.view.ViewGroup
 import android.widget.LinearLayout
 import kotlinx.android.synthetic.main.layout_lista_lugares.view.*
 
-class ListaFragment : Fragment() {
+class ListaFragment  : Fragment()  {
 
     var miContexto: Context? = null
     var customSQL = CustomSQL(miContexto, "Ubicaciones", null, 1)
@@ -67,6 +67,19 @@ class ListaFragment : Fragment() {
 
         override fun onCreateViewHolder(p0: ViewGroup, position: Int): CustomAdapter.CustomViewHolder {
             val v: View = LayoutInflater.from(miContexto).inflate(R.layout.layout_lista_lugares, p0, false)
+
+            v.setOnClickListener {
+
+                var fm = fragmentManager
+                val ft = fm.beginTransaction()
+                val vistaMarker = MapaFragment()
+                vistaMarker.miContexto = miContexto
+                ft.replace(R.id.layReplace,MapaFragment())
+                ft.commit()
+            }
+
+
+
             return CustomViewHolder(v)
         }
 
@@ -79,18 +92,11 @@ class ListaFragment : Fragment() {
             Log.d("tamano de locaciones",listaLugares.size.toString())
         }
 
-        override fun onBindViewHolder(holder: CustomViewHolder, position: Int) {
-            holder.binData(listaLugares[position])
+        override fun onBindViewHolder(p0: CustomViewHolder, position: Int) {
+            p0.binData(listaLugares[position])
+
 
         }
-
-
-
-
     }
-
-
-
-
 }
 

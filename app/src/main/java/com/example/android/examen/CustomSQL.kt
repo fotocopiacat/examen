@@ -84,4 +84,23 @@ class CustomSQL (
         }
         return ubicacionesRecibidas
     }
+
+    fun sendUbicacionToMap(): ArrayList<UbicacionClase> {
+        val db = this.writableDatabase
+        var latLong = ArrayList<UbicacionClase>()
+        val query = "SELECT * FROM Ubicaciones"
+        val cursor = db.rawQuery(query, null)
+        if (cursor.moveToFirst()) {
+            do {
+                var nombre= cursor.getString(1)
+                var descripcion = cursor.getString(2)
+                var latitud = cursor.getDouble(3)
+                var longitud = cursor.getDouble(4)
+                latLong.add(UbicacionClase(nombre,descripcion,latitud,longitud))
+            } while (cursor.moveToNext())
+        }
+        return latLong
+    }
+
+
 }

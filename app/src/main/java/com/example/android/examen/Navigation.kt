@@ -94,6 +94,7 @@ class Navigation : AppCompatActivity(), NavigationView.OnNavigationItemSelectedL
                 ft.commit()
             }
 
+
         }
 
         drawer_layout.closeDrawer(GravityCompat.START)

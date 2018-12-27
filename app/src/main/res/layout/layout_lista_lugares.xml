@@ -1,14 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
-              android:layout_height="wrap_content" android:orientation="vertical">
+              android:layout_height="wrap_content" android:orientation="vertical" android:layout_margin="10dp">
 
     <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content" android:id="@+id/txtNombreLugar"
             android:text="@string/txtlugar" android:textSize="14sp" android:textStyle="bold"/>
     <TextView
-            android:text="TextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" android:id="@+id/lblNombreLugar" android:textSize="18sp"/>
     <TextView
@@ -16,7 +15,6 @@
             android:layout_height="wrap_content" android:id="@+id/txtDescripcion"
             android:text="@string/txtdescripcion" android:textSize="14sp" android:textStyle="bold"/>
     <TextView
-            android:text="TextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" android:id="@+id/lblDescripcion" android:textSize="18sp"/>
     <TextView
@@ -25,7 +23,6 @@
             android:layout_height="wrap_content" android:id="@+id/txtLatitud"
             android:textSize="14sp" android:textStyle="bold"/>
     <TextView
-            android:text="TextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" android:id="@+id/lblLatitud" android:textSize="18sp"/>
     <TextView
@@ -34,7 +31,6 @@
             android:layout_height="wrap_content" android:id="@+id/txtLongitud"
             android:textSize="14sp" android:textStyle="bold"/>
     <TextView
-            android:text="TextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" android:id="@+id/lbllongitud" android:textSize="18sp"
             android:layout_marginBottom="12dp"/>
