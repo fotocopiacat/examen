@@ -52,6 +52,7 @@ class MainActivity : AppCompatActivity(),LocationListener, OnMapReadyCallback {
         else {
             p0?.isMyLocationEnabled = true
         }
+
     }
 
     //Se declara un Location Manager
@@ -86,7 +87,7 @@ class MainActivity : AppCompatActivity(),LocationListener, OnMapReadyCallback {
             var nombre : String = editNombre.text.toString()
             var descripcion : String = editDescripcion.text.toString()
             var marcador = LatLng(latitud,longitud)
-            var zoom : Float = 700f
+            var zoom : Float = 20f
             mapa?.moveCamera(CameraUpdateFactory.newLatLngZoom(marcador,zoom))
             mapa?.addMarker(MarkerOptions().position(marcador).visible(true))
             var customSQL = CustomSQL(this,"Ubicaciones", null, 1)
@@ -118,7 +119,7 @@ class MainActivity : AppCompatActivity(),LocationListener, OnMapReadyCallback {
         altitud = location?.altitude.toString().toDouble()
 
         var marcador = LatLng(latitud,longitud)
-        var zoom : Float = 1500f
+        var zoom : Float = 18f
         mapa?.moveCamera(CameraUpdateFactory.newLatLngZoom(marcador,zoom))
     }
 
