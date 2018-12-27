@@ -51,15 +51,10 @@ class CustomSQL (
         }
     }
 
-    fun getUbicaciones(
-        nombre: String,
-        descripcion: String,
-        toString: String,
-        toString1: String
-    ): ArrayList<UbicacionClase> {
+    fun getUbicaciones(nombre: String, descripcion: String,latitud: String, longitud: String): ArrayList<UbicacionClase> {
+        val db = this.writableDatabase
         var ubicacionesList = ArrayList<UbicacionClase>()
         val query = "SELECT * FROM Ubicaciones"
-        val db = this.writableDatabase
         val cursor = db.rawQuery(query, null)
         if (cursor.moveToFirst()) {
             do {
@@ -73,33 +68,20 @@ class CustomSQL (
         return ubicacionesList
     }
 
-
-    fun sendUbicaciones(): ArrayList<UbicacionClase> {
+    fun sendUbicaciones(nombreDb: String): ArrayList<UbicacionClase> {
         val db = this.writableDatabase
-
         var ubicacionesRecibidas = ArrayList<UbicacionClase>()
-
-        try {
-            var query2 = "SELECT * FROM Ubicaciones"
-            val cursor = db.rawQuery(query2, null)
-            if (cursor.moveToFirst()) {
-                do {
-                    var nombre = cursor.getString(1)
-                    var descripcion = cursor.getString(2)
-                    var latitud = cursor.getDouble(3)
-                    var longitud = cursor.getDouble(4)
-                    var ubicacionesEnviar = UbicacionClase(nombre,descripcion,latitud,longitud)
-                    //ubicacionesRecibidas.add(UbicacionClase(nombre, descripcion, latitud, longitud))
-                    ubicacionesRecibidas.add(ubicacionesEnviar)
-                } while (cursor.moveToNext())
-            }
-            db.close()
-        }
-        catch (e:SQLException) {
-
-                Toast.makeText(miContexto, "$(e.message", Toast.LENGTH_LONG ).show()
+        val query = "SELECT * FROM Ubicaciones"
+        val cursor = db.rawQuery(query, null)
+        if (cursor.moveToFirst()) {
+            do {
+                var nombre= cursor.getString(1)
+                var descripcion = cursor.getString(2)
+                var latitud = cursor.getDouble(3)
+                var longitud = cursor.getDouble(4)
+                ubicacionesRecibidas.add(UbicacionClase(nombre,descripcion,latitud,longitud))
+            } while (cursor.moveToNext())
         }
         return ubicacionesRecibidas
     }
-
 }

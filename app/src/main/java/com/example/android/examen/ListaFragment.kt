@@ -30,17 +30,19 @@ class ListaFragment : Fragment() {
         // Inflate the layout for this fragment
         var v: View = inflater.inflate(R.layout.fragment_lista, container, false)
 
-        var fragmentManager = fragmentManager
+            var customSQL = CustomSQL(miContexto, "Ubicaciones", null, 1)
 
-        miContexto = activity
-        var listaLugares = customSQL.sendUbicaciones()
+            var fragmentManager = fragmentManager
 
-        var customSQL = CustomSQL(miContexto, "Ubicaciones", null, 1)
+            miContexto = activity
 
-        var adaptador = CustomAdapter(miContexto!!,listaLugares,fragmentManager!!)
-        var recyclerLista = v.findViewById<RecyclerView>(R.id.rvLugares)
-        recyclerLista.layoutManager = LinearLayoutManager(miContexto, LinearLayout.VERTICAL,false)
-        recyclerLista.adapter = adaptador
+            var listaLugares : ArrayList<UbicacionClase> = customSQL.sendUbicaciones("Ubicaciones")
+
+            var adaptador = CustomAdapter(miContexto!!,listaLugares,fragmentManager!!)
+            var recyclerLista = v.findViewById<RecyclerView>(R.id.rvLugares)
+            recyclerLista.layoutManager = LinearLayoutManager(miContexto, LinearLayout.VERTICAL,false)
+            recyclerLista.adapter = adaptador
+
         return v
     }
 
@@ -55,7 +57,6 @@ class ListaFragment : Fragment() {
         }
 
         class CustomViewHolder(val v: View) : RecyclerView.ViewHolder(v) {
-
             var lblName = v.findViewById<TextureView>(R.id.lblNombreLugar)
             var lblLat = v.findViewById<TextureView>(R.id.lblLatitud)
             var lblLon = v.findViewById<TextureView>(R.id.lbllongitud)
@@ -66,18 +67,10 @@ class ListaFragment : Fragment() {
 
             }
         }
-
-/*        companion object {
-            var nombre = "nombre"
-            var latitud = "latitud"
-            var longitud = "longitud"
-        }*/
-
         override fun getItemId (position : Int) : Long {
             return position.toLong()
             Log.d("tamano de locaciones",listaLugares.size.toString())
         }
-
 
         override fun onCreateViewHolder(p0: ViewGroup, p1: Int): CustomAdapter.CustomViewHolder {
             val v: View = LayoutInflater.from(miContexto).inflate(R.layout.layout_lista_lugares, p0, false)
@@ -87,9 +80,6 @@ class ListaFragment : Fragment() {
         override fun getItemCount(): Int {
             return listaLugares.size
         }
-
-
-
     }
 }
 

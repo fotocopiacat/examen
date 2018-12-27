@@ -24,6 +24,7 @@ class Navigation : AppCompatActivity(), NavigationView.OnNavigationItemSelectedL
 
     var lm: LocationManager? = null
     var miContexto : Context? = null
+    var customSQL : CustomSQL = CustomSQL(miContexto, "Ubicaciones", null, 1)
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -39,6 +40,9 @@ class Navigation : AppCompatActivity(), NavigationView.OnNavigationItemSelectedL
         toggle.syncState()
 
         nav_view.setNavigationItemSelectedListener(this)
+
+        var customSQL : CustomSQL = CustomSQL(miContexto, "Ubicaciones", null, 1)
+
 
     }
 

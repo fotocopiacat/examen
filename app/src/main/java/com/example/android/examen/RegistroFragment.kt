@@ -31,7 +31,6 @@ import kotlinx.android.synthetic.main.fragment_registro.*
 import kotlinx.android.synthetic.main.layout_lista_lugares.*
 import kotlinx.android.synthetic.main.layout_lista_lugares.view.*
 
-// TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
@@ -61,6 +60,7 @@ class RegistroFragment : Fragment(),LocationListener, OnMapReadyCallback {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         miContexto = activity
+        var customSQL : CustomSQL = CustomSQL(miContexto, "Ubicaciones", null, 1)
         //Se inicializa el location manager
         var lm = this.miContexto?.getSystemService(Context.LOCATION_SERVICE) as LocationManager
 
