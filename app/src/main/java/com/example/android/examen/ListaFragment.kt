@@ -4,16 +4,23 @@ import android.content.Context
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
+import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.support.v7.widget.RecyclerView.Adapter
+import android.util.Log
 import android.view.LayoutInflater
+import android.view.TextureView
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
 import kotlinx.android.synthetic.main.layout_lista_lugares.view.*
 
 class ListaFragment : Fragment() {
 
     var miContexto: Context? = null
-    var customSQL = CustomSQL(miContexto,"Ubicaciones", null,1)
+    var customSQL = CustomSQL(miContexto, "Ubicaciones", null, 1)
+    var listaLugares: ArrayList<UbicacionClase> = ArrayList<UbicacionClase>()
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -25,33 +32,54 @@ class ListaFragment : Fragment() {
 
         var fragmentManager = fragmentManager
 
-        var listaLugares = ArrayList<UbicacionClase>()
         miContexto = activity
-        var customSQL = CustomSQL(miContexto,"Ubicaciones", null,1)
-        listaLugares = customSQL.sendUbicaciones()
+        var listaLugares = customSQL.sendUbicaciones()
 
+        var customSQL = CustomSQL(miContexto, "Ubicaciones", null, 1)
 
-        var adaptador = customAdapter(miContexto!!, listaLugares, fragmentManager!!)
-        var lista = v.findViewById<RecyclerView>(R.id.rvLugares)
-        lista.adapter = adaptador
-
+        var adaptador = CustomAdapter(miContexto!!,listaLugares,fragmentManager!!)
+        var recyclerLista = v.findViewById<RecyclerView>(R.id.rvLugares)
+        recyclerLista.layoutManager = LinearLayoutManager(miContexto, LinearLayout.VERTICAL,false)
+        recyclerLista.adapter = adaptador
         return v
     }
 
-    class customAdapter(
+
+    class CustomAdapter(
         var miContexto: Context,
-        var listaLugares: ArrayList<UbicacionClase>,
-        var fragmentManager: FragmentManager) : RecyclerView.Adapter<customAdapter.CustomViewHolder>() {
+        var listaLugares : ArrayList<UbicacionClase>,
+        var fragmentManager: FragmentManager) : RecyclerView.Adapter<CustomAdapter.CustomViewHolder>() {
+
+        override fun onBindViewHolder(holder: CustomViewHolder, position: Int) {
+            holder.binData(listaLugares[position])
+        }
 
         class CustomViewHolder(val v: View) : RecyclerView.ViewHolder(v) {
-            fun binData(site: UbicacionClase) {
-                v.lblNombreLugar
-                v.lblLatitud
-                v.lbllongitud
+
+            var lblName = v.findViewById<TextureView>(R.id.lblNombreLugar)
+            var lblLat = v.findViewById<TextureView>(R.id.lblLatitud)
+            var lblLon = v.findViewById<TextureView>(R.id.lbllongitud)
+
+            fun binData(infolugar : UbicacionClase) {
+                v.lblNombreLugar.text = infolugar.nombre
+                v.lblLatitud.text = infolugar.latitud.toString()
+
             }
         }
 
-        override fun onCreateViewHolder(p0: ViewGroup, p1: Int): customAdapter.CustomViewHolder {
+/*        companion object {
+            var nombre = "nombre"
+            var latitud = "latitud"
+            var longitud = "longitud"
+        }*/
+
+        override fun getItemId (position : Int) : Long {
+            return position.toLong()
+            Log.d("tamano de locaciones",listaLugares.size.toString())
+        }
+
+
+        override fun onCreateViewHolder(p0: ViewGroup, p1: Int): CustomAdapter.CustomViewHolder {
             val v: View = LayoutInflater.from(miContexto).inflate(R.layout.layout_lista_lugares, p0, false)
             return CustomViewHolder(v)
         }
@@ -59,9 +87,9 @@ class ListaFragment : Fragment() {
         override fun getItemCount(): Int {
             return listaLugares.size
         }
-        override fun onBindViewHolder(p0: customAdapter.CustomViewHolder, p1: Int) {
 
-            p0.binData(listaLugares[p1])
-        }
+
+
     }
 }
+
