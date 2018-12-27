@@ -84,8 +84,8 @@ class RegistroFragment : Fragment(),LocationListener, OnMapReadyCallback {
         }
 
         //fragmento mapa
-       // val fragmentoMapa = childFragmentManager.findFragmentById(R.id.FragmentMapa) as SupportMapFragment
-        //fragmentoMapa.getMapAsync(this)
+     //   val fragmentoMapa = childFragmentManager.findFragmentById(R.id.FragmentMapa) as SupportMapFragment
+       // fragmentoMapa.getMapAsync(this)
 
 
     }
@@ -131,8 +131,6 @@ class RegistroFragment : Fragment(),LocationListener, OnMapReadyCallback {
 
     override fun onCreateView (inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 
-
-
         var v: View = inflater.inflate(R.layout.fragment_registro, container, false)
         var customSQL : CustomSQL = CustomSQL(miContexto, "Ubicaciones", null, 1)
         val fragmentoMapa = childFragmentManager.findFragmentById(R.id.FragmentMapa) as SupportMapFragment
@@ -160,8 +158,9 @@ class RegistroFragment : Fragment(),LocationListener, OnMapReadyCallback {
     }
 
     override fun onMapReady(p0: GoogleMap?) {
-        miContexto = this.activity
+
         mapa = p0
+        //miContexto = this.activity
         //se revisa nuevamente si los permisos fueron otorgados
         val permisos = arrayOf(Manifest.permission.ACCESS_FINE_LOCATION,Manifest.permission.ACCESS_COARSE_LOCATION)
         var granted = true
