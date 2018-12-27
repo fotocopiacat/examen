@@ -35,7 +35,7 @@ class CustomSQL (val miContexto: Context,
             cv.put("nombre", nombre)
             cv.put("descripcion", descripcion)
             cv.put("latitud", latitud)
-            cv.put("descripcion", longitud)
+            cv.put("longitud", longitud)
             val resultado = db.insert("Ubicaciones", null, cv)
             db.close()
             if (resultado == 1L) {
@@ -61,10 +61,10 @@ class CustomSQL (val miContexto: Context,
         val cursor = db.rawQuery(query, null)
         if (cursor.moveToFirst()) {
             do {
-                var nombre= cursor.getString(0)
-                var descripcion = cursor.getString(1)
+                var nombre= cursor.getString(1)
+                var descripcion = cursor.getString(2)
                 var latitud = cursor.getDouble(3)
-                var longitud = cursor.getDouble(3)
+                var longitud = cursor.getDouble(4)
                 ubicacionesList.add(UbicacionClase(nombre,descripcion,latitud,longitud))
             } while (cursor.moveToNext())
         }

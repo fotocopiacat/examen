@@ -36,7 +36,6 @@ class MainActivity : AppCompatActivity(),LocationListener, OnMapReadyCallback {
     //así puedo limpiarlos o leerlos de la DB.
     var isShowing : Boolean = true
 
-
     override fun onMapReady(p0: GoogleMap?) {
         mapa = p0
         //se revisa nuevamente si los permisos fueron otorgados
@@ -48,7 +47,6 @@ class MainActivity : AppCompatActivity(),LocationListener, OnMapReadyCallback {
         }
         if (!granted)
         {
-            //aqui se le pone codigo 2 en vez del anterior (el de mas abajo) que dice 1
             ActivityCompat.requestPermissions(this,permisos,2)
         }
         else {
@@ -84,10 +82,6 @@ class MainActivity : AppCompatActivity(),LocationListener, OnMapReadyCallback {
         val fragmentoMapa = supportFragmentManager.findFragmentById(R.id.FragmentMapa) as SupportMapFragment
         fragmentoMapa.getMapAsync(this)
 
-
-
-
-
         btnAdd.setOnClickListener {
             var nombre : String = editNombre.text.toString()
             var descripcion : String = editDescripcion.text.toString()
@@ -97,27 +91,22 @@ class MainActivity : AppCompatActivity(),LocationListener, OnMapReadyCallback {
             mapa?.addMarker(MarkerOptions().position(marcador).visible(true))
             var customSQL = CustomSQL(this,"Ubicaciones", null, 1)
             customSQL.insertar(nombre,descripcion,latitud.toString(),longitud.toString())
-        //    editNombre.text.clear()
-        //    editDescripcion.text.clear()
+            editNombre.text.clear()
+            editDescripcion.text.clear()
         }
-
-
 
         btnList.setOnClickListener {
             var nombre : String = editNombre.text.toString()
             var descripcion : String = editDescripcion.text.toString()
             var customSQL = CustomSQL(this,"Ubicaciones", null, 1)
             var getubicaciones = customSQL.getUbicaciones(nombre,descripcion,latitud.toString(),longitud.toString())
-            for (i in getubicaciones){
+            for (i  in getubicaciones){
                 System.out.println(i)
             }
         }
     }
 
     override fun onLocationChanged(location: Location?) {
-        //Se indica que las variables latitd y longitud obtienen sus valores de la locacion
-        //obtenida por el servicio de ubicacion
-
         latitud = location?.latitude.toString().toDouble()
         longitud = location?.longitude.toString().toDouble()
         altitud = location?.altitude.toString().toDouble()
