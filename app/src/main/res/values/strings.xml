@@ -3,6 +3,7 @@
     <string name="txtname">Nombre</string>
     <string name="txtdescripcion">Descripcion</string>
     <string name="txtadd">Agregar</string>
+    <string name="txtlist">Listar</string>
 
 
 </resources>

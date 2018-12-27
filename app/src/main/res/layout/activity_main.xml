@@ -29,6 +29,12 @@
                 android:layout_height="wrap_content" android:id="@+id/btnAdd" android:textSize="12sp"
                 android:textStyle="italic" android:textAlignment="center"
         />
+        <Button
+                android:text="@string/txtlist"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" android:id="@+id/btnList" android:textSize="12sp"
+                android:textStyle="italic" android:textAlignment="center"
+                android:layout_weight="1"/>
     </LinearLayout>
     <LinearLayout
             android:orientation="vertical"

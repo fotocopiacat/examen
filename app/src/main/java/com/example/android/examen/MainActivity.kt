@@ -31,7 +31,7 @@ class MainActivity : AppCompatActivity(),LocationListener, OnMapReadyCallback {
     var lm : LocationManager? = null
     //Este boolean sirve para saber si la DB está guardando datos o no.
     //lo uso para abrir o cerrar la conexión con la DB
-    var isSaving : Boolean = false
+    var isSaving : Boolean = true
     //Este boolean lo uso para saber si se están mostrando los marcadores o no,
     //así puedo limpiarlos o leerlos de la DB.
     var isShowing : Boolean = true
@@ -84,26 +84,40 @@ class MainActivity : AppCompatActivity(),LocationListener, OnMapReadyCallback {
         val fragmentoMapa = supportFragmentManager.findFragmentById(R.id.FragmentMapa) as SupportMapFragment
         fragmentoMapa.getMapAsync(this)
 
-        var inputNombre = editNombre.text.toString()
-        var inputDescripcion = editDescripcion.text.toString()
-        var latString = latitud.toString()
-        var longString = longitud.toString()
+
+
+
 
         btnAdd.setOnClickListener {
+            var nombre : String = editNombre.text.toString()
+            var descripcion : String = editDescripcion.text.toString()
             var marcador = LatLng(latitud,longitud)
             var zoom : Float = 700f
             mapa?.moveCamera(CameraUpdateFactory.newLatLngZoom(marcador,zoom))
             mapa?.addMarker(MarkerOptions().position(marcador).visible(true))
             var customSQL = CustomSQL(this,"Ubicaciones", null, 1)
-            customSQL.insertar(inputNombre,inputDescripcion,latString,longString)
-            editNombre.text.clear()
-            editDescripcion.text.clear()
+            customSQL.insertar(nombre,descripcion,latitud.toString(),longitud.toString())
+        //    editNombre.text.clear()
+        //    editDescripcion.text.clear()
+        }
+
+
+
+        btnList.setOnClickListener {
+            var nombre : String = editNombre.text.toString()
+            var descripcion : String = editDescripcion.text.toString()
+            var customSQL = CustomSQL(this,"Ubicaciones", null, 1)
+            var getubicaciones = customSQL.getUbicaciones(nombre,descripcion,latitud.toString(),longitud.toString())
+            for (i in getubicaciones){
+                System.out.println(i)
+            }
         }
     }
 
     override fun onLocationChanged(location: Location?) {
         //Se indica que las variables latitd y longitud obtienen sus valores de la locacion
         //obtenida por el servicio de ubicacion
+
         latitud = location?.latitude.toString().toDouble()
         longitud = location?.longitude.toString().toDouble()
         altitud = location?.altitude.toString().toDouble()
