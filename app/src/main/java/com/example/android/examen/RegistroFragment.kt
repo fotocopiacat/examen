@@ -4,8 +4,6 @@ import android.Manifest
 import android.app.Activity
 import android.content.Context
 import android.content.pm.PackageManager
-import android.database.sqlite.SQLiteDatabase
-import android.database.sqlite.SQLiteOpenHelper
 import android.location.Location
 import android.location.LocationListener
 import android.location.LocationManager
@@ -13,11 +11,15 @@ import android.net.Uri
 import android.os.Bundle
 import android.support.v4.app.ActivityCompat
 import android.support.v4.app.Fragment
-import android.support.v4.content.ContextCompat.getSystemService
+import android.support.v4.app.FragmentManager
+import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.LinearLayout
+import android.widget.TextView
 import android.widget.Toast
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -26,6 +28,8 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import kotlinx.android.synthetic.main.fragment_registro.*
+import kotlinx.android.synthetic.main.layout_lista_lugares.*
+import kotlinx.android.synthetic.main.layout_lista_lugares.view.*
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -154,8 +158,10 @@ class RegistroFragment : Fragment(),LocationListener, OnMapReadyCallback {
                 Toast.makeText(miContexto, "No dejes campos en blanco! Escribe nuevamente :3",Toast.LENGTH_LONG).show()
             }
             else {
-                customSQL.getUbicaciones(nombre, descripcion, latitud.toString(), longitud.toString())
+
+
                 customSQL.insertar(nombre, descripcion, latitud.toString(), longitud.toString())
+                customSQL.getUbicaciones(nombre,descripcion,latitud.toString(),longitud.toString())
                 this.editNombre.text.clear()
                 this.editDescripcion.text.clear()
             }

@@ -6,9 +6,13 @@
              tools:context=".ListaFragment">
 
     <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <LinearLayout
+            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="HOLA SOY UN FRAGMENTO"/>
+            android:layout_height="match_parent" android:id="@+id/layRvLugares">
+        <android.support.v7.widget.RecyclerView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" android:id="@+id/rvLugares"/>
+    </LinearLayout>
 
 </FrameLayout>
