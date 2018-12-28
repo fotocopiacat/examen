@@ -149,7 +149,7 @@ class RegistroFragment : Fragment(),LocationListener, OnMapReadyCallback {
 
 
                 customSQL.insertar(nombre, descripcion, latitud.toString(), longitud.toString())
-                customSQL.getUbicaciones(nombre,descripcion,latitud.toString(),longitud.toString())
+                customSQL.getUbicaciones(id.toString(),nombre,descripcion,latitud.toString(),longitud.toString())
                 this.editNombre.text.clear()
                 this.editDescripcion.text.clear()
             }

@@ -5,6 +5,7 @@ import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 import android.widget.Toast
+import com.google.android.gms.maps.model.LatLng
 import java.sql.SQLException
 
 class CustomSQL (
@@ -51,7 +52,7 @@ class CustomSQL (
         }
     }
 
-    fun getUbicaciones(nombre: String, descripcion: String,latitud: String, longitud: String): ArrayList<UbicacionClase> {
+    fun getUbicaciones(id: String, nombre: String, descripcion: String,latitud: String, longitud: String): ArrayList<UbicacionClase> {
         val db = this.writableDatabase
         var ubicacionesList = ArrayList<UbicacionClase>()
         val query = "SELECT * FROM Ubicaciones"
@@ -62,7 +63,7 @@ class CustomSQL (
                 var descripcion = cursor.getString(2)
                 var latitud = cursor.getDouble(3)
                 var longitud = cursor.getDouble(4)
-                ubicacionesList.add(UbicacionClase(nombre,descripcion,latitud,longitud))
+                ubicacionesList.add(UbicacionClase(id,nombre,descripcion,latitud,longitud))
             } while (cursor.moveToNext())
         }
         return ubicacionesList
@@ -75,31 +76,31 @@ class CustomSQL (
         val cursor = db.rawQuery(query, null)
         if (cursor.moveToFirst()) {
             do {
+                var id = cursor.getString(0)
                 var nombre= cursor.getString(1)
                 var descripcion = cursor.getString(2)
                 var latitud = cursor.getDouble(3)
                 var longitud = cursor.getDouble(4)
-                ubicacionesRecibidas.add(UbicacionClase(nombre,descripcion,latitud,longitud))
+                ubicacionesRecibidas.add(UbicacionClase(id,nombre,descripcion,latitud,longitud))
             } while (cursor.moveToNext())
         }
         return ubicacionesRecibidas
     }
 
-    fun sendUbicacionToMap(): ArrayList<UbicacionClase> {
+    fun sendUbicacionToMap(): ArrayList<LatLng> {
         val db = this.writableDatabase
-        var latLong = ArrayList<UbicacionClase>()
+        var latLangArray = ArrayList<LatLng>()
         val query = "SELECT * FROM Ubicaciones"
         val cursor = db.rawQuery(query, null)
         if (cursor.moveToFirst()) {
             do {
-                var nombre= cursor.getString(1)
-                var descripcion = cursor.getString(2)
+
                 var latitud = cursor.getDouble(3)
                 var longitud = cursor.getDouble(4)
-                latLong.add(UbicacionClase(nombre,descripcion,latitud,longitud))
+                latLangArray.add(LatLng(latitud,longitud))
             } while (cursor.moveToNext())
         }
-        return latLong
+        return latLangArray
     }
 
 

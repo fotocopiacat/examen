@@ -3,6 +3,7 @@ package com.example.android.examen
 import android.Manifest
 import android.app.Activity
 import android.content.Context
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.LocationManager
 import android.os.Bundle
@@ -17,6 +18,7 @@ import android.view.TextureView
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
+import android.widget.Toast
 import kotlinx.android.synthetic.main.layout_lista_lugares.view.*
 
 class ListaFragment  : Fragment()  {
@@ -56,29 +58,42 @@ class ListaFragment  : Fragment()  {
         RecyclerView.Adapter<CustomAdapter.CustomViewHolder>() {
 
         class CustomViewHolder(val miVista: View) : RecyclerView.ViewHolder(miVista) {
-
+            var id : String = ""
             fun binData(site : UbicacionClase) {
+
                 miVista.lblNombreLugar.text = site.nombre
                 miVista.lblDescripcion.text = site.descripcion
                 miVista.lblLatitud.text = site.latitud.toString()
                 miVista.lbllongitud.text=site.longitud.toString()
+                id = site.id
+                var idd = id
+
+                fun printidd () {
+                    System.out.println(idd)
+                }
+
+                printidd()
             }
         }
 
         override fun onCreateViewHolder(p0: ViewGroup, position: Int): CustomAdapter.CustomViewHolder {
             val v: View = LayoutInflater.from(miContexto).inflate(R.layout.layout_lista_lugares, p0, false)
-
+            val p: Int=position;
             v.setOnClickListener {
 
                 var fm = fragmentManager
                 val ft = fm.beginTransaction()
                 val vistaMarker = MapaFragment()
+                vistaMarker.data_id = p;
                 vistaMarker.miContexto = miContexto
                 ft.replace(R.id.layReplace,MapaFragment())
+                System.out.println(p);
+                System.out.println(getItemId(p));
                 ft.commit()
+                //aqui intente pasarle al Mapa el ID de la entrada, para que relacione cada fila de datos de la DB
+                // con el item de la lista, cosa de poder dibujar en el mapa ese marker en especial, pero no pude
+                //porque data_id llega como null al fragmento nuevo :(
             }
-
-
 
             return CustomViewHolder(v)
         }
